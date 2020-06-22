@@ -4,27 +4,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QuickStartLobbyController : MonoBehaviourPunCallbacks
+public class DelayStartLobbyController : MonoBehaviourPunCallbacks
 {
     [SerializeField]
-    private GameObject quickStartButton;
+    private GameObject delayStartButton;
     [SerializeField]
-    private GameObject quickCancelButton;
+    private GameObject delayCancelButton;
     [SerializeField]
-    private int RoomSize;
+    private int roomSize;
 
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-        quickStartButton.SetActive(true);
+        delayStartButton.SetActive(true);
     }
 
-    public void QuickStart()
+    public void DelayStart()
     {
-        quickStartButton.SetActive(false);
-        quickCancelButton.SetActive(true);
+        delayStartButton.SetActive(false);
+        delayCancelButton.SetActive(true);
         PhotonNetwork.JoinRandomRoom();
-        Debug.Log("Quick start");
+        Debug.Log("Delay start");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -37,7 +37,7 @@ public class QuickStartLobbyController : MonoBehaviourPunCallbacks
     {
         Debug.Log("Creating room now");
         int randomRoomNumber = Random.Range(0, 1000);
-        RoomOptions roomOps = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = (byte)RoomSize };
+        RoomOptions roomOps = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = (byte)roomSize };
         PhotonNetwork.CreateRoom("Room" + randomRoomNumber, roomOps);
         Debug.Log(randomRoomNumber);
     }
@@ -48,10 +48,10 @@ public class QuickStartLobbyController : MonoBehaviourPunCallbacks
         CreateRoom();
     }
 
-    public void QuickCancel()
+    public void DelayCancel()
     {
-        quickCancelButton.SetActive(false);
-        quickStartButton.SetActive(true);
+        delayCancelButton.SetActive(false);
+        delayStartButton.SetActive(true);
         PhotonNetwork.LeaveRoom();
-    } 
+    }
 }
